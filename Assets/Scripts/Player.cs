@@ -7,7 +7,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f;
     [SerializeField]
-    private float _boostSpeed = 2f;
+    private float _boostSpeedMultiplier = 2f;
+    [SerializeField]
+    private float _thrusterSpeed = 7.0f;
+    [SerializeField]
+    private float _regularSpeed = 3.5f;
+
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -18,8 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
-    private UIManager _uiManager; 
-    
+    private UIManager _uiManager;
+
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     [SerializeField]
@@ -31,7 +36,7 @@ public class Player : MonoBehaviour
     private GameObject _rightEngine;
     [SerializeField]
     private GameObject _leftEngine;
-    
+
 
     [SerializeField]
     private int _score;
@@ -41,16 +46,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
 
-    //variable to store audio clip
+    //increased speed thruster
 
     // Start is called before the first frame update
     void Start()
     {
-       transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-             
+
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
@@ -69,7 +74,7 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserSoundClip;
         }
-       
+
     }
 
     // Update is called once per frame
@@ -77,10 +82,13 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
+        ThrusterSpeed();
+
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
         }
+
     }
     void CalculateMovement()
     {
@@ -90,7 +98,7 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         transform.Translate(direction * _speed * Time.deltaTime);
-       
+
         if (transform.position.y >= 0)
         {
             transform.position = new Vector3(transform.position.x, 0, 0);
@@ -111,7 +119,7 @@ public class Player : MonoBehaviour
     }
     void FireLaser()
     {
-            _canFire = Time.time + _fireRate;
+        _canFire = Time.time + _fireRate;
 
         if (_isTripleShotActive == true)
         {
@@ -123,9 +131,21 @@ public class Player : MonoBehaviour
         }
 
         _audioSource.Play();
-        
+
     }
-    public void Damage()
+
+    void ThrusterSpeed()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _speed = _thrusterSpeed;
+        }
+          if  (Input.GetKeyUp(KeyCode.LeftShift))
+          {
+            _speed = _regularSpeed;
+          }
+    }
+        public void Damage()
     {
         if (_isShieldActive == true)
         {
@@ -169,14 +189,14 @@ public class Player : MonoBehaviour
     public void SpeedBoostActive()
     {
         _isSpeedBoostActive = true;
-        _speed *= _boostSpeed;
+        _speed *= _boostSpeedMultiplier;
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
         _isSpeedBoostActive = false;
-        _speed /= _boostSpeed;
+        _speed /= _boostSpeedMultiplier;
     }
     public void ShieldActive()
     {
