@@ -29,14 +29,21 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive = false;
     [SerializeField]
     private bool _isShieldActive = false;
+
     [SerializeField]
     private GameObject _shieldVisualizer;
+    [SerializeField]
+    private int _shields = 3;
+    [SerializeField]
+    private GameObject _shieldMid;
+    [SerializeField]
+    private GameObject _shieldWeak;
+
 
     [SerializeField]
     private GameObject _rightEngine;
     [SerializeField]
     private GameObject _leftEngine;
-
 
     [SerializeField]
     private int _score;
@@ -46,7 +53,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
 
-    //increased speed thruster
 
     // Start is called before the first frame update
     void Start()
@@ -140,40 +146,58 @@ public class Player : MonoBehaviour
         {
             _speed = _thrusterSpeed;
         }
-          if  (Input.GetKeyUp(KeyCode.LeftShift))
-          {
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
             _speed = _regularSpeed;
-          }
+        }
     }
-        public void Damage()
+    public void Damage()
     {
         if (_isShieldActive == true)
-        {
-            _isShieldActive = false;
-            _shieldVisualizer.SetActive(false);
-            return;
-        }
-        _lives -= 1;
-
-        if (_lives == 2)
-        {
-            _leftEngine.SetActive(true);
-        }
-        else if (_lives == 1)
-        {
-            _rightEngine.SetActive(true);
-        }
-
-
-            _uiManager.UpdateLives(_lives);
+            
+            _shields -= 1;
         
 
-        if (_lives <1)
+        if (_shields == 2)
         {
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            _shieldVisualizer.SetActive(false);
+            _shieldMid.SetActive(true);
+        }
+        
+        else if (_shields == 1)
+        {
+            _shieldMid.SetActive(false);
+            _shieldWeak.SetActive(true);
+        }
+          
+        if (_shields < 1)
+        {
+            _shieldWeak.SetActive(false);
+            _isShieldActive = (false);
             
         }
+   
+        if (_isShieldActive == false)
+        
+            _lives -= 1;
+        
+            if (_lives == 2)
+            {
+                _leftEngine.SetActive(true);
+            }
+            else if (_lives == 1)
+            {
+                _rightEngine.SetActive(true);
+            }
+
+            _uiManager.UpdateLives(_lives);
+
+            if (_lives < 1)
+            {
+                _spawnManager.OnPlayerDeath();
+                Destroy(this.gameObject);
+            }
+        
     }
     public void TripleShotActive()
     {
@@ -201,6 +225,9 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _isShieldActive = true;
+        _shields = 3;
+        _shieldMid.SetActive(false);
+        _shieldWeak.SetActive(false);
         _shieldVisualizer.SetActive(true);
        
     }
@@ -209,5 +236,5 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
-    
+
 }

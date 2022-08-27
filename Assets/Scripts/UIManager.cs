@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    
+
     [SerializeField]
     private Text _scoreText;
     [SerializeField]
@@ -16,12 +16,11 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
-
     private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
@@ -48,16 +47,18 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    
 
     void GameOverSequence()
-        {
+    {
         _gameManager.GameOver();
         _gameOverText.gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
         _restartText.gameObject.SetActive(true);
-        }
-    
+    }
+
     IEnumerator GameOverFlickerRoutine()
+
     {
         while (true)
         {
@@ -68,5 +69,6 @@ public class UIManager : MonoBehaviour
 
         }
     }
-    
+
+
 }
