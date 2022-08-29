@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateAmmo(int playerAmmo)
     {
+
         _ammoText.text = "AMMO COUNT: " + playerAmmo.ToString();
 
         _ammoImg.sprite = _ammoSprites[playerAmmo];
@@ -114,5 +115,15 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    public void AmmoReset()
+    {
+        _noAmmoText.gameObject.SetActive(false);
+        _ammoText.gameObject.SetActive(true);
+        _ammoText.text = "AMMO COUNT: 15"; 
+        _ammoImg.sprite = _ammoSprites[14];
+    }
+
+
 }
 

@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
     private int _score;
     [SerializeField]
     private int _ammoCount = 15;
+    [SerializeField]
+    private int _maxAmmo = 15;
 
     [SerializeField]
     private AudioClip _laserSoundClip;
@@ -177,30 +179,30 @@ public class Player : MonoBehaviour
 
     public void PlayerDamage()
     {
-            _lives -= 1;
-        
-            if (_lives == 2)
-            {
-                _leftEngine.SetActive(true);
-            }
-            else if (_lives == 1)
-            {
-                _rightEngine.SetActive(true);
-            }
+        _lives -= 1;
 
-            _uiManager.UpdateLives(_lives);
+        if (_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
 
-            if (_lives < 1)
-            {
-                _spawnManager.OnPlayerDeath();
-                Destroy(this.gameObject);
-            }
-        
+        _uiManager.UpdateLives(_lives);
+
+        if (_lives < 1)
+        {
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
+        }
+
     }
 
     public void ShieldDamage()
     {
-            _shields -= 1;
+        _shields -= 1;
 
 
         if (_shields == 2)
@@ -226,7 +228,7 @@ public class Player : MonoBehaviour
     {
         _isTripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
-      
+
     }
     IEnumerator TripleShotPowerDownRoutine()
     {
@@ -252,14 +254,20 @@ public class Player : MonoBehaviour
         _shieldMid.SetActive(false);
         _shieldWeak.SetActive(false);
         _shieldVisualizer.SetActive(true);
-       
+
     }
     public void AddScore(int points)
     {
         _score += points;
         _uiManager.UpdateScore(_score);
     }
-    
-    
+    public void ResetAmmoCount()
 
+    {
+        if (_ammoCount != 15)
+        {
+            _ammoCount = _maxAmmo;
+            _uiManager.AmmoReset();
+        }
+    }
 }

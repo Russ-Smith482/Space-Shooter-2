@@ -12,9 +12,6 @@ public class Asteriod : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
-
-
-
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -41,7 +38,4 @@ void Update()
             
         }
     }
-        //check for laser collision (Trigger)
-        //instantiate explosion at pos (us)
-        //destroy the explosion after 
-    }
+}
