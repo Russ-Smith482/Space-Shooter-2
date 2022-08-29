@@ -12,11 +12,24 @@ public class UIManager : MonoBehaviour
     private Image _livesImg;
     [SerializeField]
     private Sprite[] _liveSprites;
+    
+    
     [SerializeField]
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
     private GameManager _gameManager;
+
+    [SerializeField]
+    private Text _ammoText;
+    [SerializeField]
+    private Image _ammoImg;
+    [SerializeField]
+    private Sprite[] _ammoSprites;
+    [SerializeField]
+    private Text _noAmmoText;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +61,18 @@ public class UIManager : MonoBehaviour
 
     }
     
+    public void UpdateAmmo(int playerAmmo)
+    {
+        _ammoText.text = "AMMO COUNT: " + playerAmmo.ToString();
+
+        _ammoImg.sprite = _ammoSprites[playerAmmo];
+
+        if (playerAmmo == 0)
+        {
+            NoAmmoSequence();
+        }
+
+    }
 
     void GameOverSequence()
     {
@@ -70,5 +95,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void NoAmmoSequence()
+    {
+        _ammoText.gameObject.SetActive(false);
+        _noAmmoText.gameObject.SetActive(true);
+        StartCoroutine(NoAmmoFlickerRoutine());
+        
+    }
+    
+    IEnumerator NoAmmoFlickerRoutine()
 
+    {
+        while (true)
+        {
+            _noAmmoText.text = "NO AMMO";
+            yield return new WaitForSeconds(0.5f);
+            _noAmmoText.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 }
+

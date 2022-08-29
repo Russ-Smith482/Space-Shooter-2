@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _score;
+    [SerializeField]
+    private int _ammoCount = 15;
 
     [SerializeField]
     private AudioClip _laserSoundClip;
@@ -127,16 +129,24 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
-        if (_isTripleShotActive == true)
+        if (_ammoCount > 0)
         {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
-        }
 
-        _audioSource.Play();
+
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+            }
+
+            _audioSource.Play();
+
+            _ammoCount--;
+            _uiManager.UpdateAmmo(_ammoCount);
+        }
 
     }
 
@@ -151,34 +161,22 @@ public class Player : MonoBehaviour
             _speed = _regularSpeed;
         }
     }
+
     public void Damage()
     {
-        if (_isShieldActive == true)
-            
-            _shields -= 1;
-        
-
-        if (_shields == 2)
-        {
-            _shieldVisualizer.SetActive(false);
-            _shieldMid.SetActive(true);
-        }
-        
-        else if (_shields == 1)
-        {
-            _shieldMid.SetActive(false);
-            _shieldWeak.SetActive(true);
-        }
-          
-        if (_shields < 1)
-        {
-            _shieldWeak.SetActive(false);
-            _isShieldActive = (false);
-            
-        }
-   
         if (_isShieldActive == false)
-        
+
+            PlayerDamage();
+
+        else if
+
+            (_isShieldActive == true)
+
+            ShieldDamage();
+    }
+
+    public void PlayerDamage()
+    {
             _lives -= 1;
         
             if (_lives == 2)
@@ -198,6 +196,31 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
             }
         
+    }
+
+    public void ShieldDamage()
+    {
+            _shields -= 1;
+
+
+        if (_shields == 2)
+        {
+            _shieldVisualizer.SetActive(false);
+            _shieldMid.SetActive(true);
+        }
+
+        else if (_shields == 1)
+        {
+            _shieldMid.SetActive(false);
+            _shieldWeak.SetActive(true);
+        }
+
+        if (_shields < 1)
+        {
+            _shieldWeak.SetActive(false);
+            _isShieldActive = (false);
+
+        }
     }
     public void TripleShotActive()
     {
@@ -236,5 +259,7 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
+    
+    
 
 }
