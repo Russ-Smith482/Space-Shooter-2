@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7503744342163621280}
   m_Layer: 0
   m_Name: Ammo_Refill
-  m_TagString: Untagged
+  m_TagString: Ammo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _clip: {fileID: 8300000, guid: bc39e82c0d69ba44ab9ea3996adad219, type: 3}
+  collectable: 0
 --- !u!58 &4961464460176315649
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -6,16 +6,14 @@ public class Collectables : MonoBehaviour
 {
 
     [SerializeField]
-    private float _speed = 3.0f;
+    private float _speed = 2.0f;
     [SerializeField]
     private AudioClip _clip;
-
+    [SerializeField]
+    private int collectable; //0 = Ammo, 1 = Health
+    [SerializeField]
     // Start is called before the first frame update
-    void Start()
     
-        {
-           
-        }
 
     // Update is called once per frame
     void Update()
@@ -37,12 +35,22 @@ public class Collectables : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
 
             if (player != null)
-
             {
-                player.ResetAmmoCount();
+
+                switch (collectable)
+                {
+                    case 0:
+                        //AudioSource.PlayClipAtPoint(_clip, transform.position);
+                        player.ResetAmmoCount();
+                        break;
+                    case 1:
+                        player.PlayerAddLife();
+                        break;
+                }
+
             }
 
-            AudioSource.PlayClipAtPoint(_clip, transform.position);
+            AudioSource.PlayClipAtPoint(_clip, transform.position,10f);
 
             Destroy(this.gameObject);
         }

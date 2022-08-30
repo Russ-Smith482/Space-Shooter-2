@@ -421,7 +421,9 @@ MonoBehaviour:
   - {fileID: 6638619805075752265, guid: 67ba457453bbc804bad3ef17eff834ef, type: 3}
   - {fileID: 9015036954477401614, guid: 0200c919dc8f56d4fa3c05b5c2cc261a, type: 3}
   - {fileID: 5890237987290389572, guid: 5a4ee959f8af65040bb6ed808e7b5ff7, type: 3}
-  _ammoRefillPrefab: {fileID: 825257546958467489, guid: cd2d464f9868f334899895c56f7b0719, type: 3}
+  collectables:
+  - {fileID: 825257546958467489, guid: cd2d464f9868f334899895c56f7b0719, type: 3}
+  - {fileID: 4985738921645739101, guid: 49aa0b9b27b8e4944b089984036cf5c9, type: 3}
 --- !u!4 &612080344
 Transform:
   m_ObjectHideFlags: 0

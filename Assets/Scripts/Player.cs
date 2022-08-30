@@ -270,4 +270,23 @@ public class Player : MonoBehaviour
             _uiManager.AmmoReset();
         }
     }
-}
+    public void PlayerAddLife()
+    {
+        if (_lives < 3)
+        {
+
+            _lives += 1;
+
+            if (_lives == 2)
+            {
+                _leftEngine.SetActive(true);
+            }
+            else if (_lives == 1)
+            {
+                _rightEngine.SetActive(true);
+            }
+
+            _uiManager.UpdateLives(_lives);
+        }
+        }
+    }
