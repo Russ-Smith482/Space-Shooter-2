@@ -8,6 +8,7 @@ TagManager:
   - Laser
   - Health
   - Ammo
+  - Missile
   layers:
   - Default
   - TransparentFX

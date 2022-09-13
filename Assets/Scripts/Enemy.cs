@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private bool _isDead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +46,7 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Time.time > _canFire)
+        if (Time.time > _canFire && _isDead == false)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
@@ -82,6 +83,7 @@ public class Enemy : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
+            _isDead = true;
             Destroy(this.gameObject, 2.6f);
 
         }
@@ -99,6 +101,24 @@ public class Enemy : MonoBehaviour
             _audioSource.Play();
 
             Destroy(GetComponent<Collider2D>());
+            _isDead = true;
+            Destroy(this.gameObject, 2.6f);
+        }
+
+        if (other.tag == "Missile")
+        {
+            Destroy(other.gameObject);
+
+            if (_player != null)
+            {
+                _player.AddScore(10);
+            }
+            _animator.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            _audioSource.Play();
+
+            Destroy(GetComponent<Collider2D>());
+            _isDead = true;
             Destroy(this.gameObject, 2.6f);
         }
 

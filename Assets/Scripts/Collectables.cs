@@ -40,8 +40,7 @@ public class Collectables : MonoBehaviour
                 switch (collectable)
                 {
                     case 0:
-                        //AudioSource.PlayClipAtPoint(_clip, transform.position);
-                        player.ResetAmmoCount();
+                       player.ResetAmmoCount();
                         break;
                     case 1:
                         player.PlayerAddLife();

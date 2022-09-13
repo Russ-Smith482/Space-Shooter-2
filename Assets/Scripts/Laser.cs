@@ -24,7 +24,7 @@ public class Laser : MonoBehaviour
         }
     }
 
-    void MoveUp()
+    void MoveUp() 
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
