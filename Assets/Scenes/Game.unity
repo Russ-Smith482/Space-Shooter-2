@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 250145319}
   - component: {fileID: 250145318}
   - component: {fileID: 250145321}
+  - component: {fileID: 250145322}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -267,6 +268,18 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &250145322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250145317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7412d83169776ce479dc271ad3426725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &353141665
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +718,7 @@ MonoBehaviour:
   _missilePrefab: {fileID: 7082138275895707938, guid: d92c704c0ad33464fad0e812eab5be9b, type: 3}
   _fireRate: 0.15
   _missileRate: 1
+  _cameraShake: {fileID: 250145322}
   _shieldVisualizer: {fileID: 1201376518}
   _shields: 3
   _shieldMid: {fileID: 1224786095}

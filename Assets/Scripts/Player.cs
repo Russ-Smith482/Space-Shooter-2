@@ -37,13 +37,15 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    [SerializeField]
+    private CameraShake _cameraShake;
 
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private bool _isScattershotActive = false;
     private bool _isMissileActive = false;
-   private bool _isThrusterBoostActive = false;
+    private bool _isThrusterBoostActive = false;
     
 
     [SerializeField]
@@ -81,11 +83,17 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         _audioSource = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
+        }
+
+        if (_cameraShake == null)
+        {
+            Debug.LogError("Camera Shake is NULL.");
         }
 
         if (_uiManager == null)
@@ -290,6 +298,7 @@ public class Player : MonoBehaviour
     public void PlayerDamage()
     {
         _lives -= 1;
+        StartCoroutine(_cameraShake.CameraShakeCoroutine(0.4f, 0.4f));
 
         if (_lives == 2)
         {
