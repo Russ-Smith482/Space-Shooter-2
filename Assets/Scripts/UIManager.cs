@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     private Sprite[] _ammoSprites;
     [SerializeField]
     private Text _noAmmoText;
+    [SerializeField]
+    private Slider _thrustersSlider;
 
 
     // Start is called before the first frame update
@@ -73,6 +75,12 @@ public class UIManager : MonoBehaviour
             NoAmmoSequence();
         }
 
+    }
+
+    public void UpdateThrusterBoost(float _thrusterLimit)
+    {
+        _thrustersSlider.value = _thrusterLimit;
+       
     }
 
     void GameOverSequence()

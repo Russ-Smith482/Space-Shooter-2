@@ -9,10 +9,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _boostSpeedMultiplier = 2f;
     [SerializeField]
-    private float _thrusterSpeed = 7.0f;
-    [SerializeField]
     private float _regularSpeed = 3.5f;
-  
+    [SerializeField]
+    private float _thrusterSpeed = 7.0f;
+
+    [SerializeField]
+    private float _thrusterBoost = 100.0f;
+    [SerializeField]
+    private float _BoostUsage = 200.0f;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -39,6 +43,7 @@ public class Player : MonoBehaviour
     private bool _isShieldActive = false;
     private bool _isScattershotActive = false;
     private bool _isMissileActive = false;
+   private bool _isThrusterBoostActive = false;
     
 
     [SerializeField]
@@ -104,7 +109,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        ThrusterSpeed();
+        ThrusterBoost();
 
         if (_ammoCount > 0 && Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
@@ -216,15 +221,56 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammoCount);
     }
 
-    void ThrusterSpeed()
+    void ThrusterBoost()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _thrusterBoost > 0)
+
         {
-            _speed = _thrusterSpeed;
+            StartCoroutine(ThrusterActive());
+            
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+
+        {  
+            StartCoroutine(ThrusterReset());
+        }
+    }
+
+    IEnumerator ThrusterActive()
+    {
+        _isThrusterBoostActive = true;
+        _speed = _thrusterSpeed;
+
+        while (Input.GetKey(KeyCode.LeftShift) && _thrusterBoost > 0)
         {
-            _speed = _regularSpeed;
+            yield return null;
+            _thrusterBoost -= _BoostUsage * Time.deltaTime;
+            _uiManager.UpdateThrusterBoost(_thrusterBoost);
+        }
+    }
+
+    IEnumerator ThrusterReset()
+    {
+        _isThrusterBoostActive = false;
+        _speed = _regularSpeed;
+
+        if (_thrusterBoost < 100 && _isThrusterBoostActive == false)
+        {
+            yield return new WaitForSeconds(5.0f);
+        }
+        while (_thrusterBoost < 100 && _isThrusterBoostActive == false)
+
+        { 
+            yield return null;
+
+            _thrusterBoost += _BoostUsage * Time.deltaTime;
+            _uiManager.UpdateThrusterBoost(_thrusterBoost);
         }
     }
 
@@ -385,4 +431,6 @@ public class Player : MonoBehaviour
     }
     
 }
+
+
 
