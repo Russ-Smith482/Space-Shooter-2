@@ -65,8 +65,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateAmmo(int playerAmmo)
     {
-
-        _ammoText.text = "AMMO COUNT: " + playerAmmo.ToString();
+        _ammoText.text = "AMMO COUNT: " + playerAmmo + "/15"; 
 
         _ammoImg.sprite = _ammoSprites[playerAmmo];
 
@@ -74,7 +73,6 @@ public class UIManager : MonoBehaviour
         {
             NoAmmoSequence();
         }
-
     }
 
     public void UpdateThrusterBoost(float _thrusterLimit)
@@ -128,7 +126,7 @@ public class UIManager : MonoBehaviour
     {
         _noAmmoText.gameObject.SetActive(false);
         _ammoText.gameObject.SetActive(true);
-        _ammoText.text = "AMMO COUNT: 15"; 
+        _ammoText.text = "AMMO COUNT: 15/15"; 
         _ammoImg.sprite = _ammoSprites[14];
     }
 

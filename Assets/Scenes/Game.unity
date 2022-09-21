@@ -2718,7 +2718,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'AMMO COUNT: 15'
+  m_Text: 'AMMO COUNT: 15/15'
 --- !u!222 &2045850126
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -92,11 +92,6 @@ public class Enemy : MonoBehaviour
                         transform.position = new Vector3(-11f, transform.position.y, 0);
                     }
 
-                    //else if (transform.position.x <= -11)
-                    //{
-                        //transform.position = new Vector3(11f, transform.position.y, 0);
-                    //}
-                
                 break;
 
             case 2:
@@ -109,11 +104,6 @@ public class Enemy : MonoBehaviour
                     transform.position = new Vector3(randomX, 7f, 0);
                 }
 
-                //else if (transform.position.x >= 11)
-       
-                    //{
-                        //transform.position = new Vector3(-11f, transform.position.y, 0);
-                    //}
                     else if (transform.position.x <= -11)
                     {
                         transform.position = new Vector3(11f, transform.position.y, 0);
@@ -121,12 +111,6 @@ public class Enemy : MonoBehaviour
                 
                 break;
         }
-
-        //make another movement for moving sideway
-        //random it so make a switch
-        //make it so enemies can screen wrap for sideways moves
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
