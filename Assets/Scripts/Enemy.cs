@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField]
+    private int enemyID; //0 = standard, 1 = left, 2 = right
+
+    [SerializeField]
     private float _speed = 4f;
     
     [SerializeField]
@@ -44,13 +47,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
+         EnemyMovement();
 
         if (Time.time > _canFire && _isDead == false)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, this.transform.rotation);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
             
             for (int i = 0; i < lasers.Length; i++)
@@ -60,15 +63,70 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void CalculateMovement()
+    void EnemyMovement()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
-        if (transform.position.y < -6f)
+        switch(enemyID)
         {
-            float randomX = Random.Range(-8f, 8f);
-            transform.position = new Vector3(randomX, 7f, 0);
+            case 0:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+                break;
+
+            case 1:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0, 0, 35);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+
+                else if (transform.position.x >= 11)
+                    {
+                        transform.position = new Vector3(-11f, transform.position.y, 0);
+                    }
+
+                    //else if (transform.position.x <= -11)
+                    //{
+                        //transform.position = new Vector3(11f, transform.position.y, 0);
+                    //}
+                
+                break;
+
+            case 2:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0, 0, -35);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+
+                //else if (transform.position.x >= 11)
+       
+                    //{
+                        //transform.position = new Vector3(-11f, transform.position.y, 0);
+                    //}
+                    else if (transform.position.x <= -11)
+                    {
+                        transform.position = new Vector3(11f, transform.position.y, 0);
+                    }
+                
+                break;
         }
+
+        //make another movement for moving sideway
+        //random it so make a switch
+        //make it so enemies can screen wrap for sideways moves
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
