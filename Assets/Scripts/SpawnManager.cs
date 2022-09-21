@@ -15,29 +15,58 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _missilePowerup;
 
+
+    private int _waveNumber;
+    private int _enemiesDestroyed;
+    private int _maxEnemies;
+    private int _enemiesLeftToSpawn;
+
     private bool _stopSpawning = false;
     // Start is called before the first frame update
-   
 
-    public void StartSpawning()
+    private UIManager _uiManager;
+
+    void Start()
     {
-        StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerupRoutine());
-        StartCoroutine(SpawnCollectableRoutine());
-        StartCoroutine(SpawnMissilePowerup());
+        _uiManager = GameObject.FindObjectOfType<UIManager>();
     }
 
-    IEnumerator SpawnEnemyRoutine()
+    public void StartSpawning(int waveNumber)
+    {
+
+        if (waveNumber <= 5)
+        {
+            _stopSpawning = false;
+            _enemiesDestroyed = 0;
+            _waveNumber = waveNumber;
+            _uiManager.UpdateWaves(_waveNumber);
+            _enemiesLeftToSpawn = _waveNumber + 6;
+            _maxEnemies = _waveNumber + 6;
+            StartCoroutine(SpawnEnemyRoutine());
+            StartCoroutine(SpawnPowerupRoutine());
+            StartCoroutine(SpawnCollectableRoutine());
+            StartCoroutine(SpawnMissilePowerup());
+        }
+    }
+
+        IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3.0f);
-        while (_stopSpawning == false)
+        while (_stopSpawning == false && _enemiesDestroyed <= _maxEnemies)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
             int randomEnemy = Random.Range(0, 3);
             GameObject newEnemy = Instantiate(enemies[randomEnemy], posToSpawn, this.transform.rotation);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.0f);
+
+            _enemiesLeftToSpawn--;
+            if(_enemiesLeftToSpawn == 0)
+            {
+                _stopSpawning = true;
+            }
+            yield return new WaitForSeconds(2.0f);
         }
+        StartSpawning(_waveNumber + 1);
     }
 
     IEnumerator SpawnPowerupRoutine()
@@ -74,6 +103,11 @@ public class SpawnManager : MonoBehaviour
             Instantiate(_missilePowerup, posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(20.0f, 40.0f));
         }
+    }
+
+    public void EnemyDestroyed()
+    {
+        _enemiesDestroyed++;
     }
 
     public void OnPlayerDeath()

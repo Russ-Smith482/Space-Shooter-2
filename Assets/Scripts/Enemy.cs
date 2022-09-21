@@ -23,10 +23,13 @@ public class Enemy : MonoBehaviour
     private AudioSource _audioSource;
 
     private bool _isDead = false;
+
+    private SpawnManager _spawnManager;
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
 
 
@@ -141,7 +144,7 @@ public class Enemy : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
-
+            _spawnManager.EnemyDestroyed();
             Destroy(GetComponent<Collider2D>());
             _isDead = true;
             Destroy(this.gameObject, 2.6f);

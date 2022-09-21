@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+   [SerializeField]
+    private Text _wavesText;
+
+
     private GameManager _gameManager;
 
     [SerializeField]
@@ -28,6 +32,8 @@ public class UIManager : MonoBehaviour
     private Sprite[] _ammoSprites;
     [SerializeField]
     private Text _noAmmoText;
+    
+    
     [SerializeField]
     private Slider _thrustersSlider;
 
@@ -130,6 +136,22 @@ public class UIManager : MonoBehaviour
         _ammoImg.sprite = _ammoSprites[14];
     }
 
+    public void UpdateWaves(int currentWave)
+    {
+        _wavesText.text = "Wave " + currentWave.ToString();
+        _wavesText.gameObject.SetActive(true);
+        StartCoroutine(WaveDisplayRoutine());
+
+    }
+
+    IEnumerator WaveDisplayRoutine()
+    {
+        while (_wavesText == true)
+        {
+            yield return new WaitForSeconds(4.0f);
+            _wavesText.gameObject.SetActive(false);
+        }
+    }
 
 }
 

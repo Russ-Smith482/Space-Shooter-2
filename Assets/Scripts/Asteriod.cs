@@ -11,16 +11,16 @@ public class Asteriod : MonoBehaviour
     private GameObject _explosionPrefab;
 
     private SpawnManager _spawnManager;
-
+    private UIManager _uiManager;
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
 // Update is called once per frame
 void Update()
     {
-        //rotate object on z axis 
         transform.Rotate(Vector3.forward * _speed * Time.deltaTime);
         
     }
@@ -31,8 +31,10 @@ void Update()
         {
             Destroy(other.gameObject);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            
-            _spawnManager.StartSpawning();
+
+            int waveNumber = 1;
+            _uiManager.UpdateWaves(waveNumber);
+            _spawnManager.StartSpawning(waveNumber);
             
             Destroy(this.gameObject, 0.25f);
             
