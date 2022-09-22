@@ -6,7 +6,7 @@ public class Powerup : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.0f;
-    [SerializeField] //0 = Triple Shot, 1 = Speed, 2 = Shields, 3 = Scatter
+    [SerializeField] //0 = Triple Shot, 1 = Speed, 2 = Shields, 3 = Scatter, 4 =  BlackHole
     private int powerupID;
     [SerializeField]
     private AudioClip _clip;
@@ -34,7 +34,7 @@ public class Powerup : MonoBehaviour
             if (player != null)
             {
                switch(powerupID)
-                {
+               {
                     case 0:
                         player.TripleShotActive();
                         break;
@@ -47,8 +47,11 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.ScattershotActive();
                         break;
-                }
-              }
+                    case 4:
+                        player.EngineFail();
+                        break;
+               }
+            }
             
             Destroy(this.gameObject);
         }
