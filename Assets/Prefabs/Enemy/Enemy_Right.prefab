@@ -52,6 +52,7 @@ MonoBehaviour:
   _speed: 4
   _laserPrefab: {fileID: 8313616604285068127, guid: dac3b4e6366638249b621457c49abb49, type: 3}
   _animator: {fileID: 0}
+  _beam: {fileID: 5215328948274715388, guid: a26e8e6534e55ab4eb40b4af75eea7c0, type: 3}
 --- !u!212 &498951772269407275
 SpriteRenderer:
   m_ObjectHideFlags: 0

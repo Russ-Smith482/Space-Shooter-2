@@ -511,6 +511,7 @@ MonoBehaviour:
   - {fileID: 1255110787829767520, guid: 92232e785351d3a40b5548fff60ecd10, type: 3}
   - {fileID: 4111146870373543702, guid: 48ed83f6a46279144b6a5269c6c6fc0b, type: 3}
   - {fileID: 5972686519518320315, guid: 675ecbfbf73e4c943a529ed70426ab6e, type: 3}
+  - {fileID: 9101315619531735470, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
   _enemyContainer: {fileID: 1846390239}
   powerups:
   - {fileID: 6638619805075752265, guid: 67ba457453bbc804bad3ef17eff834ef, type: 3}
@@ -1340,6 +1341,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903797601}
   m_CullTransparentMesh: 1
+--- !u!1001 &927384558
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1787678966, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787678969, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787678969, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 34370231
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726426667574180502, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101315619531735470, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
+      propertyPath: m_Name
+      value: EnemyRed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e41e3d510458694c9c80d25c441b4a5, type: 3}
 --- !u!1 &988482537
 GameObject:
   m_ObjectHideFlags: 0
@@ -2998,7 +3068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2873420447114442076, guid: 36aa1d78eeedcc8489f396487aac7670, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8746180906012558481, guid: 36aa1d78eeedcc8489f396487aac7670, type: 3}
       propertyPath: m_RootOrder

@@ -7,10 +7,11 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField]
-    private int enemyID; //0 = standard, 1 = left, 2 = right
+    private int enemyID; //0 = standard, 1 = left, 2 = right, 3 = red
 
     [SerializeField]
     private float _speed = 4f;
+    
     
     [SerializeField]
     private GameObject _laserPrefab;
@@ -25,11 +26,20 @@ public class Enemy : MonoBehaviour
     private bool _isDead = false;
 
     private SpawnManager _spawnManager;
+    
+    
+    [SerializeField]
+    private GameObject _beam;
+
+    private bool _isEnemyRed = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        
+       
         _audioSource = GetComponent<AudioSource>();
 
 
@@ -45,25 +55,17 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Animator is NULL.");
         }
 
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is NULL.");
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
          EnemyMovement();
-
-        if (Time.time > _canFire && _isDead == false)
-        {
-            _fireRate = Random.Range(3f, 7f);
-            _canFire = Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, this.transform.rotation);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            
-            for (int i = 0; i < lasers.Length; i++)
-            {
-                lasers[i].AssignEnemyLaser();
-            }
-        }
     }
 
     void EnemyMovement()
@@ -78,6 +80,8 @@ public class Enemy : MonoBehaviour
                     float randomX = Random.Range(-8f, 8f);
                     transform.position = new Vector3(randomX, 7f, 0);
                 }
+
+                LaserFire();
                 break;
 
             case 1:
@@ -94,7 +98,7 @@ public class Enemy : MonoBehaviour
                     {
                         transform.position = new Vector3(-11f, transform.position.y, 0);
                     }
-
+                LaserFire();
                 break;
 
             case 2:
@@ -111,9 +115,69 @@ public class Enemy : MonoBehaviour
                     {
                         transform.position = new Vector3(11f, transform.position.y, 0);
                     }
-                
+                LaserFire();
+                break;
+
+            case 3:
+
+                transform.Translate((Vector3.down + Vector3.left) * _speed * Time.deltaTime);
+
+                if (transform.position.y <= 4f)
+
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+                    transform.Translate((Vector3.down + Vector3.right) * Time.deltaTime);
+                }
+
+                if (transform.position.y <= 2f)
+
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+                    transform.Translate((Vector3.down + Vector3.left) * Time.deltaTime);
+                }
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+                else if (transform.position.x <= -11)
+                {
+                    transform.position = new Vector3(11f, transform.position.y, 0);
+                }
+
+                if (_isEnemyRed == false)
+                {
+                    EnemyRed();
+                }
+
                 break;
         }
+    }
+
+    private void EnemyRed()
+    {
+        _isEnemyRed = true;
+       
+            StartCoroutine(BeamCooldownRoutine());
+        
+    }
+
+    private void LaserFire()
+    {
+        if (Time.time > _canFire && _isDead == false)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, this.transform.rotation);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -121,14 +185,17 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();
+
             if (player != null)
             {
                 player.Damage();
             }
+            _beam.gameObject.SetActive(false);
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
             _isDead = true;
+            
             Destroy(this.gameObject, 2.6f);
 
         }
@@ -136,24 +203,25 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-
+            _beam.gameObject.SetActive(false);
+            _isDead = true;
+            
             if (_player != null)
             {
                 _player.AddScore(10);
             }
-            _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _animator.SetTrigger("OnEnemyDeath");
             _audioSource.Play();
             _spawnManager.EnemyDestroyed();
             Destroy(GetComponent<Collider2D>());
-            _isDead = true;
             Destroy(this.gameObject, 2.6f);
         }
 
         if (other.tag == "Missile")
         {
             Destroy(other.gameObject);
-
+            _beam.gameObject.SetActive(false);
             if (_player != null)
             {
                 _player.AddScore(10);
@@ -164,8 +232,28 @@ public class Enemy : MonoBehaviour
 
             Destroy(GetComponent<Collider2D>());
             _isDead = true;
+           
             Destroy(this.gameObject, 2.6f);
         }
 
+    }
+
+    IEnumerator BeamCooldownRoutine()
+    {
+
+        yield return new WaitForSeconds(1.5f);
+
+        if (_isDead == false)
+        {
+            while (true)
+            {
+                {
+                    _beam.gameObject.SetActive(true);
+                    yield return new WaitForSeconds(2.5f);
+                    _beam.gameObject.SetActive(false);
+                    yield return new WaitForSeconds(5.0f);
+                }
+            }
+        }
     }
 }

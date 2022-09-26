@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false && _enemiesDestroyed <= _maxEnemies)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int randomEnemy = Random.Range(0, 3);
+            int randomEnemy = Random.Range(0, 4);
             GameObject newEnemy = Instantiate(enemies[randomEnemy], posToSpawn, this.transform.rotation);
             newEnemy.transform.parent = _enemyContainer.transform;
 

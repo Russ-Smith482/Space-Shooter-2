@@ -48,9 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6a34ac52d805647b7adf28d5ccc47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyID: 0
   _speed: 4
   _laserPrefab: {fileID: 8313616604285068127, guid: dac3b4e6366638249b621457c49abb49, type: 3}
   _animator: {fileID: 0}
+  _beam: {fileID: 5215328948274715388, guid: a26e8e6534e55ab4eb40b4af75eea7c0, type: 3}
 --- !u!212 &5000284061316851696
 SpriteRenderer:
   m_ObjectHideFlags: 0
