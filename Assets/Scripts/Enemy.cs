@@ -79,9 +79,13 @@ public class Enemy : MonoBehaviour
 
     void EnemyMovement()
     {
-        switch(enemyID)
+         
+
+        switch (enemyID)
         {
+
             case 0:
+                
                 transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
                 if (transform.position.y < -6f)
@@ -163,7 +167,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case 4:
-            
+
                 transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
                 if (transform.position.y < -6f)
@@ -181,7 +185,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case 5:
-               
+
                 transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
                 if (transform.position.y < -6f)
@@ -193,6 +197,26 @@ public class Enemy : MonoBehaviour
                 EnemyRam();
                 break;
 
+            case 6:
+
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+
+                if (transform.position.y <= _player.transform.position.y)
+                {
+                    LaserUp();
+                }
+
+                else
+                {
+                    LaserFire();
+                }
+                break;
         }
     }
 
@@ -217,6 +241,21 @@ public class Enemy : MonoBehaviour
             {
                 lasers[i].AssignEnemyLaser();
             }
+        }
+
+    }
+
+    private void LaserUp()
+    {
+
+        Vector3 laserOffset = new Vector3(transform.position.x, 1.5f, transform.position.z);
+
+        if (Time.time > _canFire && _isDead == false)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_laserPrefab, laserOffset, this.transform.rotation);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
         }
 
     }
