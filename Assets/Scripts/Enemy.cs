@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField]
-    private int enemyID; //0 = standard, 1 = left, 2 = right, 3 = red
+    private int enemyID; //0 = standard, 1 = left, 2 = right, 3 = red, 4 = shielded
 
     [SerializeField]
     private float _speed = 4f;
@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private GameObject _shieldEnemy;
     private Player _player;
     private float _fireRate = 3f;
     private float _canFire = -1;
@@ -32,6 +34,9 @@ public class Enemy : MonoBehaviour
     private GameObject _beam;
 
     private bool _isEnemyRed = false;
+
+    private bool _isEnemyShielded = false;
+    private bool _isEnemyShieldDown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -152,6 +157,24 @@ public class Enemy : MonoBehaviour
                 }
 
                 break;
+
+            case 4:
+            
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+
+                LaserFire();
+
+                if (_isEnemyShielded == false)
+                {
+                    EnemyShielded();
+                }
+                break;
         }
     }
 
@@ -180,9 +203,18 @@ public class Enemy : MonoBehaviour
 
     }
 
+    private void EnemyShielded()
+   
+    {
+        if (_isEnemyShieldDown == false)
+        {
+            _isEnemyShielded = true;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && _isEnemyShielded == false)
         {
             Player player = other.transform.GetComponent<Player>();
 
@@ -200,7 +232,7 @@ public class Enemy : MonoBehaviour
 
         }
 
-        if (other.tag == "Laser")
+        if (other.tag == "Laser" && _isEnemyShielded == false)
         {
             Destroy(other.gameObject);
             _beam.gameObject.SetActive(false);
@@ -218,7 +250,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.6f);
         }
 
-        if (other.tag == "Missile")
+        if (other.tag == "Missile" && _isEnemyShielded == false)
         {
             Destroy(other.gameObject);
             _beam.gameObject.SetActive(false);
@@ -234,6 +266,13 @@ public class Enemy : MonoBehaviour
             _isDead = true;
            
             Destroy(this.gameObject, 2.6f);
+        }
+
+        if (_isEnemyShielded == true)
+        {
+            _isEnemyShieldDown = true;
+            _shieldEnemy.SetActive(false);
+            _isEnemyShielded = false;
         }
 
     }

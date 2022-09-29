@@ -99,9 +99,6 @@ public class SpawnManager : MonoBehaviour
                     Instantiate(_ultraEnemy[UltraEnemy], posToSpawn, this.transform.rotation);
                     transform.parent = _enemyContainer.transform;
                     break;
-                default:
-                    Debug.Log("Default Enemy Value");
-                    break;
 
             }
 
@@ -149,10 +146,6 @@ public class SpawnManager : MonoBehaviour
             case 10:
                 Instantiate(_ultraPowerups[UltraPowerup], posToSpawn, Quaternion.identity);
                 break;
-               
-               default:
-                    Debug.Log("Default Powerup Value");
-                    break;
             }
 
         yield return new WaitForSeconds(randomSpawnTime);
@@ -189,9 +182,6 @@ public class SpawnManager : MonoBehaviour
                     break;
                 case 10:
                     Instantiate(_ultraCollectable[UltraCollectable], posToSpawn, Quaternion.identity);
-                    break;
-                default:
-                    Debug.Log("Default Collectable Value");
                     break;
             }
             yield return new WaitForSeconds(randomSpawnTime);
