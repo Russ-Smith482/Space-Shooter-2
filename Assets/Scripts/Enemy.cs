@@ -11,16 +11,24 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private float _speed = 4f;
+    [SerializeField]
+    private float _ramSpeed = 6f;
+    [SerializeField]
+    private float _detectRange = 6f;
     
     
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _shieldEnemy;
-    private Player _player;
+    [SerializeField]
+    private GameObject _beam;
+
+
     private float _fireRate = 3f;
     private float _canFire = -1;
     [SerializeField]
+
     private Animator _animator;
 
     private AudioSource _audioSource;
@@ -28,13 +36,9 @@ public class Enemy : MonoBehaviour
     private bool _isDead = false;
 
     private SpawnManager _spawnManager;
-    
-    
-    [SerializeField]
-    private GameObject _beam;
+    private Player _player;
 
     private bool _isEnemyRed = false;
-
     private bool _isEnemyShielded = false;
     private bool _isEnemyShieldDown = false;
 
@@ -175,6 +179,20 @@ public class Enemy : MonoBehaviour
                     EnemyShielded();
                 }
                 break;
+
+            case 5:
+               
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+
+                if (transform.position.y < -6f)
+                {
+                    float randomX = Random.Range(-8f, 8f);
+                    transform.position = new Vector3(randomX, 7f, 0);
+                }
+
+                EnemyRam();
+                break;
+
         }
     }
 
@@ -212,6 +230,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void EnemyRam()
+    {
+        if (_player != null)
+        {
+            if (Vector3.Distance(_player.transform.position, transform.position) < _detectRange)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _ramSpeed * Time.deltaTime);
+            }
+        }
+
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" && _isEnemyShielded == false)
@@ -225,6 +255,7 @@ public class Enemy : MonoBehaviour
             _beam.gameObject.SetActive(false);
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _ramSpeed = 0;
             _audioSource.Play();
             _isDead = true;
             
@@ -243,6 +274,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
             _speed = 0;
+            _ramSpeed = 0;
             _animator.SetTrigger("OnEnemyDeath");
             _audioSource.Play();
             _spawnManager.EnemyDestroyed();
@@ -260,6 +292,7 @@ public class Enemy : MonoBehaviour
             }
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _ramSpeed = 0;
             _audioSource.Play();
 
             Destroy(GetComponent<Collider2D>());
