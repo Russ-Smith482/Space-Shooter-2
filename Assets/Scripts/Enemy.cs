@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
     private bool _isEnemyRed = false;
     private bool _isEnemyShielded = false;
     private bool _isEnemyShieldDown = false;
+    private bool _powerupDetected = false;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +76,14 @@ public class Enemy : MonoBehaviour
     void Update()
     {
          EnemyMovement();
+
+        if (Time.time > _canFire && _isDead == false && _powerupDetected == true)
+        {
+            LaserFire();
+        }
+
     }
+
 
     void EnemyMovement()
     {
@@ -243,6 +251,8 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        
+
     }
 
     private void LaserUp()
@@ -260,6 +270,11 @@ public class Enemy : MonoBehaviour
 
     }
 
+    public void PowerupDetected()
+    {
+        _powerupDetected = true;
+    }
+   
     private void EnemyShielded()
    
     {

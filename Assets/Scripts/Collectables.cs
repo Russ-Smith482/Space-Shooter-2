@@ -53,6 +53,11 @@ public class Collectables : MonoBehaviour
 
             Destroy(this.gameObject);
         }
+
+        else if (other.tag == "Laser")
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 }
