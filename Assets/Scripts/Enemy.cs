@@ -226,6 +226,50 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+    public void Dodge()
+    {
+        int rng = Random.Range(0, 2);
+
+        if (rng == 0)
+        {
+            StartCoroutine(MoveLeft());
+            
+        }
+
+        else if (rng == 1)
+        {
+            StartCoroutine(MoveRight());
+        }
+    }        
+           
+    IEnumerator MoveLeft()
+    {
+        Vector2 _currentPos = transform.position;
+        Vector2 _destination = new Vector2(transform.position.x - 1, transform.position.y);
+        float _t = 0f;
+
+            while(_t <1)
+        {
+            _t += Time.deltaTime * 3f;
+            transform.position = Vector2.Lerp(_currentPos, _destination, _t);
+            yield return null;
+        }
+
+    }
+    IEnumerator MoveRight()
+    {
+        Vector2 _currentPos = transform.position;
+        Vector2 _destination = new Vector2(transform.position.x + 1, transform.position.y);
+        float _t = 0f;
+
+            while (_t < 1)
+        {
+            _t += Time.deltaTime * 3f;
+            transform.position = Vector2.Lerp(_currentPos, _destination, _t);
+            yield return null;
+        }
+
+    }
 
     private void EnemyRed()
     {
