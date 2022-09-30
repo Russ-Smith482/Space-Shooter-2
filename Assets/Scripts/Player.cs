@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     private GameObject _scattershotPrefab;
     [SerializeField]
     private GameObject _missilePrefab;
-    
+
     [SerializeField]
     private float _fireRate = 0.15f;
     private float _canFire = -1.0f;
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     private bool _isMissileActive = false;
     private bool _isThrusterBoostActive = false;
     private bool _isEngineStalled = false;
-    
+
 
     [SerializeField]
     private GameObject _shieldVisualizer;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _rightEngine;
     [SerializeField]
-    private GameObject _leftEngine;  
+    private GameObject _leftEngine;
 
     [SerializeField]
     private int _score;
@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
     }
 
     public void PickWeapon()
-    { 
+    {
 
         {
             if (_isTripleShotActive == true)
@@ -149,8 +149,8 @@ public class Player : MonoBehaviour
             else if (_isTripleShotActive == false && _isMissileActive == false && _isScattershotActive == false)
             {
                 FireLaser();
-            } 
-            
+            }
+
         }
 
     }
@@ -186,27 +186,27 @@ public class Player : MonoBehaviour
             }
         }
     }
-        
+
     void FireLaser()
     {
-        
-            _canFire = Time.time + _fireRate;
 
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
-     
-            _audioSource.Play();
+        _canFire = Time.time + _fireRate;
 
-            _ammoCount--;
-            _uiManager.UpdateAmmo(_ammoCount);
-        
+        Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+
+        _audioSource.Play();
+
+        _ammoCount--;
+        _uiManager.UpdateAmmo(_ammoCount);
+
 
     }
     void FireMissile()
     {
         _missileCanFire = Time.time + _missileRate;
 
-            Instantiate(_missilePrefab, transform.position, Quaternion.identity);
-        
+        Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+
         _ammoCount--;
         _uiManager.UpdateAmmo(_ammoCount);
     }
@@ -214,9 +214,9 @@ public class Player : MonoBehaviour
     void FireScattershot()
     {
         _canFire = Time.time + _fireRate;
-      
-            Instantiate(_scattershotPrefab, transform.position, Quaternion.identity);
-        
+
+        Instantiate(_scattershotPrefab, transform.position, Quaternion.identity);
+
         _audioSource.Play();
 
         _ammoCount--;
@@ -228,8 +228,8 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        
+        Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+
         _audioSource.Play();
 
         _ammoCount--;
@@ -247,12 +247,12 @@ public class Player : MonoBehaviour
 
         {
             StartCoroutine(ThrusterActive());
-            
+
         }
-        
+
         else if (Input.GetKeyUp(KeyCode.LeftShift))
 
-        {  
+        {
             StartCoroutine(ThrusterReset());
         }
     }
@@ -281,7 +281,7 @@ public class Player : MonoBehaviour
         }
         while (_thrusterBoost < 100 && _isThrusterBoostActive == false)
 
-        { 
+        {
             yield return null;
 
             _thrusterBoost += _BoostUsage * Time.deltaTime;
@@ -385,7 +385,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _isMissileActive = false;
     }
- 
+
     public void SpeedBoostActive()
     {
         _isSpeedBoostActive = true;
@@ -458,7 +458,13 @@ public class Player : MonoBehaviour
             _uiManager.UpdateLives(_lives);
         }
     }
-    
+    //public void PickupCollect()
+    //{
+        //if 
+        //{
+            //transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _dragSpeed * Time.deltaTime);
+        //}
+    //}
 }
 
 

@@ -84,7 +84,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-
     void EnemyMovement()
     {
          
