@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private int enemyID; //0 = standard, 1 = left, 2 = right, 3 = red, 4 = shielded
 
     [SerializeField]
-    private float _speed = 4f;
+    private float _speed = 2.7f;
     [SerializeField]
     private float _ramSpeed = 6f;
     [SerializeField]
@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3f;
     private float _canFire = -1;
     [SerializeField]
-
     private Animator _animator;
 
     private AudioSource _audioSource;
@@ -363,9 +362,9 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser" && _isEnemyShielded == false)
         {
             Destroy(other.gameObject);
-            _beam.gameObject.SetActive(false);
             _isDead = true;
-            
+           
+
             if (_player != null)
             {
                 _player.AddScore(10);
@@ -412,7 +411,7 @@ public class Enemy : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        if (_isDead == false)
+        if (_isDead == false && _player != null)
         {
             while (true)
             {

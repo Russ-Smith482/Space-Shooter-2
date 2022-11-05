@@ -32,12 +32,18 @@ public class UIManager : MonoBehaviour
     private Sprite[] _ammoSprites;
     [SerializeField]
     private Text _noAmmoText;
+    [SerializeField]
+    private Text _winText;
     
     
     [SerializeField]
     private Slider _thrustersSlider;
 
+    [SerializeField]
+    private Slider _bossLivesSlider;
 
+    [SerializeField]
+    private GameObject _bossLifeSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -153,5 +159,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateBossLives(float _bossLives)
+    {
+        _bossLivesSlider.value = _bossLives;
+    }
+
+    public void BossLifeBar()
+    {
+        _bossLifeSlider.SetActive(true);
+    }
+
+    public void YouWin()
+    {
+        
+        _winText.gameObject.SetActive(true);
+        StartCoroutine(WinFlickerRoutine());
+        _restartText.gameObject.SetActive(true);
+    }
+
+    IEnumerator WinFlickerRoutine()
+
+    {
+        while (true)
+        {
+            _gameOverText.text = "YOU WIN";
+            yield return new WaitForSeconds(0.5f);
+            _gameOverText.text = "";
+            yield return new WaitForSeconds(0.5f);
+
+        }
+    }
 }
 

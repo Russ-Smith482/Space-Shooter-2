@@ -10,6 +10,7 @@ TagManager:
   - Ammo
   - Missile
   - PowerUp
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -52,4 +53,7 @@ TagManager:
     locked: 0
   - name: Foreground Layer
     uniqueID: 34370231
+    locked: 0
+  - name: Top
+    uniqueID: 1335154227
     locked: 0

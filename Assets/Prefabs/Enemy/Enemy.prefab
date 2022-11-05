@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyID: 0
-  _speed: 4
+  _speed: 2.5
   _ramSpeed: 6
   _detectRange: 6
   _laserPrefab: {fileID: 8313616604285068127, guid: dac3b4e6366638249b621457c49abb49, type: 3}

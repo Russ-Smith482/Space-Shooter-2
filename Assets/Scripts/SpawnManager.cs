@@ -15,6 +15,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _ultraEnemy;
 
+    [SerializeField]
+    private GameObject _boss;
+
     [SerializeField] 
     private GameObject[] _commonPowerups;
     [SerializeField]
@@ -29,13 +32,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _ultraCollectable;
 
-
+    [SerializeField]
     private int _waveNumber;
     private int _enemiesDestroyed;
     private int _maxEnemies;
     private int _enemiesLeftToSpawn;
 
-    private bool _stopSpawning = false;
+    private bool _stopSpawningEnemy = false;
 
     private UIManager _uiManager;
     
@@ -47,13 +50,13 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-    
     public void StartSpawning(int waveNumber)
     {
+        
 
         if (waveNumber <= 5)
         {
-            _stopSpawning = false;
+            _stopSpawningEnemy = false;
             _enemiesDestroyed = 0;
             _waveNumber = waveNumber;
             _uiManager.UpdateWaves(_waveNumber);
@@ -64,12 +67,20 @@ public class SpawnManager : MonoBehaviour
             StartCoroutine(SpawnCollectableRoutine());
             
         }
+         else if (waveNumber == 6)
+        {
+            Vector3 posToSpawn = new Vector3(-5.5f, 5.6f, 0);
+            
+            _stopSpawningEnemy = true;
+            Instantiate(_boss, posToSpawn, Quaternion.identity);
+            _uiManager.BossLifeBar();
+        }
     }
 
     IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3.0f);
-        while (_stopSpawning == false && _enemiesDestroyed <= _maxEnemies)
+        while (_stopSpawningEnemy == false && _enemiesDestroyed <= _maxEnemies)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
             float randomSpawnTime = Random.Range(3f, 9f);
@@ -107,22 +118,22 @@ public class SpawnManager : MonoBehaviour
             _enemiesLeftToSpawn--;
             if (_enemiesLeftToSpawn == 0)
             {
-                _stopSpawning = true;
+                _stopSpawningEnemy = true;
             }
             yield return new WaitForSeconds(2.0f);
         }
         StartSpawning(_waveNumber + 1);
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(7.5f);
     }
 
     IEnumerator SpawnPowerupRoutine()
 {
-    yield return new WaitForSeconds(5.0f);
+    yield return new WaitForSeconds(8.0f);
 
-    while (_stopSpawning == false)
+        while(true)
     {
         Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-        float randomSpawnTime = Random.Range(6f, 10f);
+        float randomSpawnTime = Random.Range(10f, 25f);
         int randomPowerupChance = Random.Range(0, 11);
         int commonPowerup = Random.Range(0, _commonPowerups.Length);
         int rarePowerup = Random.Range(0, _rarePowerups.Length);
@@ -155,11 +166,12 @@ public class SpawnManager : MonoBehaviour
     
     IEnumerator SpawnCollectableRoutine()
     {
-        yield return new WaitForSeconds(8.0f);
-        while (_stopSpawning == false)
+        yield return new WaitForSeconds(10.0f);
+        while (true)
+
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            float randomSpawnTime = Random.Range(10f, 15f);
+            float randomSpawnTime = Random.Range(12f, 25f);
             int randomCollectableChance = Random.Range(0, 11);
             int commonCollectable = Random.Range(0, _commonCollectable.Length);
             int rareCollectable = Random.Range(0, _rareCollectable.Length);
@@ -195,7 +207,7 @@ public class SpawnManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        _stopSpawning = true;
+        _stopSpawningEnemy = true;
 
     }
 }

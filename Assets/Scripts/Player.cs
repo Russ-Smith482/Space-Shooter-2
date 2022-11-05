@@ -458,13 +458,7 @@ public class Player : MonoBehaviour
             _uiManager.UpdateLives(_lives);
         }
     }
-    //public void PickupCollect()
-    //{
-        //if 
-        //{
-            //transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _dragSpeed * Time.deltaTime);
-        //}
-    //}
+  
 }
 
 
